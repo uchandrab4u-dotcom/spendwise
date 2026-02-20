@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="SpendWise — A premium matte-black expense tracker. Log income and expenses, track budgets, and see spending trends.">
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SpendWise">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>SpendWise — Expense Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
+</head>
+
+<body>
+  <!-- ===== Top Bar ===== -->
+  <header class="top-bar" role="banner">
+    <div class="top-bar__logo" aria-label="SpendWise">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+      SpendWise
+    </div>
+    <button class="btn btn--primary desktop-add-btn" data-open-modal aria-label="Add Transaction">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      Add
+    </button>
+  </header>
+
+  <!-- ===== Navigation Tabs ===== -->
+  <nav class="nav-tabs" role="tablist" aria-label="Main navigation">
+    <button class="nav-tab active" data-view="dashboard" role="tab" aria-selected="true" aria-controls="view-dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+      Dashboard
+    </button>
+    <button class="nav-tab" data-view="transactions" role="tab" aria-selected="false" aria-controls="view-transactions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6" />
+        <line x1="8" y1="12" x2="21" y2="12" />
+        <line x1="8" y1="18" x2="21" y2="18" />
+        <line x1="3" y1="6" x2="3.01" y2="6" />
+        <line x1="3" y1="12" x2="3.01" y2="12" />
+        <line x1="3" y1="18" x2="3.01" y2="18" />
+      </svg>
+      Transactions
+    </button>
+    <button class="nav-tab" data-view="settings" role="tab" aria-selected="false" aria-controls="view-settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+      Settings
+    </button>
+  </nav>
+
+  <main class="app-container">
+    <!-- ===== Dashboard View ===== -->
+    <section id="view-dashboard" class="view-panel active" role="tabpanel" aria-labelledby="Dashboard">
+
+      <!-- Month Selector -->
+      <div class="month-selector">
+        <button class="btn--icon" id="month-prev" aria-label="Previous month">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <span class="month-selector__label" id="month-label">February 2026</span>
+        <button class="btn--icon" id="month-next" aria-label="Next month">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="summary-card summary-card--income">
+          <span class="summary-card__label">Income</span>
+          <span class="summary-card__value" id="summary-income">₹0.00</span>
+        </div>
+        <div class="summary-card summary-card--expense">
+          <span class="summary-card__label">Expense</span>
+          <span class="summary-card__value" id="summary-expense">₹0.00</span>
+        </div>
+        <div class="summary-card summary-card--net">
+          <span class="summary-card__label">Net</span>
+          <span class="summary-card__value" id="summary-net">₹0.00</span>
+        </div>
+      </div>
+
+      <!-- Budget Progress -->
+      <div class="card budget-section">
+        <div class="card__header">
+          <span class="card__title">Monthly Budget</span>
+          <button class="set-budget-btn" id="set-budget-btn">Set Budget</button>
+        </div>
+        <div class="budget-info">
+          <span class="budget-info__spent" id="budget-spent">₹0.00 spent</span>
+          <span id="budget-total">No budget set</span>
+        </div>
+        <div class="budget-bar-wrapper">
+          <div class="budget-bar" id="budget-bar"></div>
+        </div>
+        <div class="budget-warning-text" id="budget-warning"></div>
+      </div>
+
+      <!-- Category Breakdown -->
+      <div class="card">
+        <div class="card__header">
+          <span class="card__title">Top Categories</span>
+        </div>
+        <ul class="category-list" id="category-breakdown">
+          <p class="text-muted" style="padding: var(--sp-4) 0; text-align: center;">No expenses this month</p>
+        </ul>
+      </div>
+
+      <!-- Trend Chart -->
+      <div class="card">
+        <div class="card__header">
+          <span class="card__title">Spending Trend</span>
+        </div>
+        <div class="chart-wrapper" id="trend-chart">
+          <div class="empty-state" style="padding: var(--sp-6) 0;">
+            <p class="text-muted">No expense data to chart</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Transactions View ===== -->
+    <section id="view-transactions" class="view-panel" role="tabpanel" aria-labelledby="Transactions">
+
+      <!-- Toolbar -->
+      <div class="txn-toolbar">
+        <div class="search-input-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="search" class="input search-input" id="search-input" placeholder="Search by note or category…"
+            aria-label="Search transactions">
+        </div>
+        <button class="filter-btn" id="filter-toggle-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+          </svg>
+          Filters
+        </button>
+      </div>
+
+      <!-- Filter Panel -->
+      <div class="filter-panel" id="filter-panel">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="filter-type">Type</label>
+            <select class="select" id="filter-type">
+              <option value="">All</option>
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-category">Category</label>
+            <select class="select" id="filter-category">
+              <option value="">All</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-date-from">From</label>
+            <input type="date" class="input" id="filter-date-from">
+          </div>
+          <div class="filter-group">
+            <label for="filter-date-to">To</label>
+            <input type="date" class="input" id="filter-date-to">
+          </div>
+        </div>
+        <div class="filter-actions">
+          <button class="btn btn--ghost" id="clear-filters-btn">Clear Filters</button>
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="sort-selector">
+        <label for="sort-select">Sort:</label>
+        <select class="select" id="sort-select">
+          <option value="date-desc">Date (Newest)</option>
+          <option value="date-asc">Date (Oldest)</option>
+          <option value="amount-desc">Amount (High → Low)</option>
+          <option value="amount-asc">Amount (Low → High)</option>
+        </select>
+      </div>
+
+      <!-- Transaction List -->
+      <div id="txn-list" role="list" aria-label="Transactions list">
+        <div class="empty-state">
+          <div class="empty-state__icon">📝</div>
+          <h3 class="empty-state__title">No transactions yet</h3>
+          <p class="empty-state__desc">Tap the + button to add your first transaction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Settings View ===== -->
+    <section id="view-settings" class="view-panel" role="tabpanel" aria-labelledby="Settings">
+
+      <div class="settings-section">
+        <h2 class="settings-section__title">Preferences</h2>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Currency Symbol</div>
+            <div class="settings-row__desc">Displayed before amounts</div>
+          </div>
+          <input type="text" class="input" id="currency-input" value="₹" maxlength="4"
+            style="width: 80px; text-align: center;" aria-label="Currency symbol">
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Monthly Budget</div>
+            <div class="settings-row__desc">Track spending against a limit</div>
+          </div>
+          <input type="number" class="input" id="budget-input" placeholder="0" min="0" step="100" style="width: 120px;"
+            aria-label="Monthly budget amount">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2 class="settings-section__title">Data Management</h2>
+        <div class="data-actions">
+          <button class="btn btn--secondary" id="export-csv-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            Export CSV
+          </button>
+          <button class="btn btn--secondary" id="import-json-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Import JSON
+          </button>
+          <button class="btn btn--danger" id="reset-data-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+            Reset All Data
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-section" style="margin-top: var(--sp-8);">
+        <p class="text-muted text-center" style="font-size: 0.75rem;">
+          SpendWise v1.0 — Your data stays on your device.<br>
+          Built with ❤️ using vanilla HTML, CSS & JavaScript.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FAB (Mobile) ===== -->
+  <button class="fab" data-open-modal aria-label="Add Transaction">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  </button>
+
+  <!-- ===== Add/Edit Modal ===== -->
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="modal-title">Add Transaction</h2>
+        <button class="btn--icon" id="modal-close-btn" aria-label="Close modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <form id="txn-form" novalidate>
+        <input type="hidden" id="txn-type-input" value="expense">
+
+        <div class="form-group">
+          <label id="type-label">Type</label>
+          <div class="type-tabs" role="group" aria-labelledby="type-label">
+            <button type="button" class="type-tab active expense-active" id="txn-type-expense">Expense</button>
+            <button type="button" class="type-tab" id="txn-type-income">Income</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="txn-amount">Amount</label>
+          <input type="number" class="input" id="txn-amount" placeholder="0.00" step="0.01" min="0.01" required
+            inputmode="decimal" aria-required="true">
+        </div>
+
+        <div class="form-group">
+          <label for="txn-category">Category</label>
+          <select class="select" id="txn-category" required aria-required="true">
+            <option value="">Select category</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="txn-date">Date</label>
+            <input type="date" class="input" id="txn-date" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="txn-payment">Payment Method</label>
+            <select class="select" id="txn-payment">
+              <option value="">Select</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="txn-note">Note <span class="text-muted">(optional)</span></label>
+          <input type="text" class="input" id="txn-note" placeholder="e.g. Coffee at Starbucks" maxlength="200">
+        </div>
+
+        <div class="form-error" id="form-error-msg" role="alert" aria-live="polite"></div>
+
+        <div class="modal__footer">
+          <button type="button" class="btn btn--ghost" id="modal-cancel-btn"
+            onclick="document.getElementById('modal-backdrop').classList.remove('open'); document.body.style.overflow='';">Cancel</button>
+          <button type="submit" class="btn btn--primary">Save Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Confirmation Modal ===== -->
+  <div class="modal-backdrop confirm-modal" id="confirm-backdrop" role="alertdialog" aria-modal="true"
+    aria-labelledby="confirm-title">
+    <div class="modal" style="border-radius: var(--radius-lg);">
+      <h2 class="modal__title" id="confirm-title" style="margin-bottom: var(--sp-3);">Confirm</h2>
+      <p id="confirm-message" style="color: var(--text-secondary); margin-bottom: var(--sp-6);">Are you sure?</p>
+      <div class="modal__footer" style="justify-content: center;">
+        <button class="btn btn--ghost" id="confirm-no-btn">Cancel</button>
+        <button class="btn btn--danger" id="confirm-yes-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Toast Container ===== -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script type="module" src="app.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
+</body>
+
+</html>
