@@ -4,23 +4,25 @@
 // ============================================================
 
 const CACHE_NAME = 'spendwise-v1';
-const ASSETS = [
-    '/',
-    '/index.html',
-    '/styles.css',
-    '/app.js',
-    '/storage.js',
-    '/utils.js',
-    '/manifest.json',
-    '/icons/icon-192.png',
-    '/icons/icon-512.png',
+
+// Use relative paths so it works under any subdirectory (e.g. /spendwise/)
+const ASSETS_TO_CACHE = [
+    './',
+    './index.html',
+    './styles.css',
+    './app.js',
+    './storage.js',
+    './utils.js',
+    './manifest.json',
+    './icons/icon-192.svg',
+    './icons/icon-512.svg',
 ];
 
 // Install — cache all core assets
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(ASSETS);
+            return cache.addAll(ASSETS_TO_CACHE);
         })
     );
     self.skipWaiting();
