@@ -3,7 +3,7 @@
 // Offline-first caching strategy
 // ============================================================
 
-const CACHE_NAME = 'spendwise-v1';
+const CACHE_NAME = 'spendwise-v2';
 
 // Use relative paths so it works under any subdirectory (e.g. /spendwise/)
 const ASSETS_TO_CACHE = [
